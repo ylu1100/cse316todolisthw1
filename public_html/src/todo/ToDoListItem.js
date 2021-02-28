@@ -15,7 +15,13 @@ export default class ToDoListItem {
     constructor(initId) {
         this.id = initId;
         this.description = "Unknown";
-        this.dueDate = new Date().toUTCString();
+        let date=new Date();
+        if(date.getMonth()+1<10){
+            this.dueDate = date.getFullYear()+"-"+"0"+(date.getMonth()+1)+"-"+date.getDate();
+        }
+        else{
+            this.dueDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+        }
         this.status = "incomplete";
     }
 

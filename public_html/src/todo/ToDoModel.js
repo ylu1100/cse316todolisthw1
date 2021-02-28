@@ -101,6 +101,8 @@ export default class ToDoModel {
         let newItem = new ToDoListItem(this.nextListItemId++);
         this.currentList.items.push(newItem);
         this.view.viewList(this.currentList);
+        
+
         return newItem;
     }
 

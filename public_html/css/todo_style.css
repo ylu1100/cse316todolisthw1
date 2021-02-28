@@ -70,7 +70,9 @@
     background-color: var(--swatch-contrast);
 }
 #delete-list-dialog{
-    margin:auto;
+    position:absolute;
+    top:40%;
+    left:45%;
     background-color:rgb(53,58,68);
     border-color:white;
     border-style:solid;
@@ -78,6 +80,9 @@
 }
 .list-item-card:hover{
     background:lightslategrey;
+}
+.task-col{
+    
 }
 .list-item-desc{
     display:none;
@@ -98,4 +103,13 @@
     background:transparent;
    
     color:White;
+}
+.deleteButton{
+    margin-left:10px;
+    margin-bottom:10px
+}
+.deleteButton:hover{
+
+    background-color:white;
+    cursor:pointer
 }

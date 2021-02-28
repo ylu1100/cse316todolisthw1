@@ -66,7 +66,7 @@ export default class ToDoView {
                                 + "<div onclick='changeTodoDesc("+ listItem.id+");' id='todo-list-desc-"+listItem.id+ "'  class='task-col' > " + listItem.description  + "</div>"
                                 +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' id='tododescchange-" + listItem.id + "' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
                                 
-                                + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col' onclick='changeTodoDate("+listItem.id+")'> " + listItem.dueDate + "</div>"
+                                + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col' onclick='changeTodoDate("+listItem.id+")'>" + listItem.dueDate + "</div>"
                                 + "<div style='margin-left:21%;display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
                                
                                 + "<div onclick='changeStatus("+ listItem.id+");' id='todo-list-status-" + listItem.id + "' class='status-col'>" + listItem.status + "</div>"
@@ -81,7 +81,55 @@ export default class ToDoView {
                                 + "</div>";
             
             itemsListDiv.innerHTML += listItemElement;
+            
         }
+        
+        for (let i = 0; i < list.items.length; i++) {
+            
+            let listItem = list.items[i];
+        document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").addEventListener('blur',function(){
+            let val=document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").value
+            listItem.description=val;
+            document.getElementById('todo-list-desc-'+listItem.id).innerHTML=val;
+            document.getElementById('todo-list-desc-input-'+listItem.id).style.display='none';
+            document.getElementById('todo-list-desc-'+listItem.id).style.visibility='visible'
+            console.log("blurdasdar")
+        });
+        
+         let date=document.getElementById('todo-list-date-input-'+listItem.id)
+         date.querySelector('input').addEventListener('blur',function(){
+             
+             let newDate=date.querySelector("input").value;
+             listItem.dueDate=newDate;
+             document.getElementById('todo-list-date-'+listItem.id).innerHTML=newDate;
+             document.getElementById('todo-list-date-'+listItem.id).style.visibility='visible';
+             date.style.display='none';
+         });
+         let statusSelect=document.getElementById('status-col-selector-'+listItem.id);
+         for( let j=0;j<statusSelect.options.length;j++){
+             
+            if(statusSelect.options[j].value==listItem.status){
+                statusSelect.selectedIndex=j;
+                break;
+            }
+         }
+         let status=document.getElementById('todo-list-status-'+listItem.id);
+         let statusDiv=document.getElementById('status-col-selector-div-'+listItem.id);
+         status.addEventListener('click',function(){
+             statusSelect.focus()
+         })
+         statusSelect.addEventListener('blur',function(){
+            statusDiv.style.display='none'
+            status.style.visibility='visible'
+        })
+         statusSelect.addEventListener('click',function(){
+             let newStatus=statusSelect.value;
+             status.innerHTML=newStatus
+             status.style.visibility='visible'
+             listItem.status=newStatus
+         })
+         
+    }
     }
     
     

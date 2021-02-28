@@ -70,3 +70,6 @@
 .list-item-control {
     width: 20%;
 }
+#todo-list-items-div{
+    height:100vh
+}
