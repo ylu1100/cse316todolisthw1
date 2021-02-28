@@ -12,14 +12,23 @@ export default class ToDoView {
     appendNewListToView(newList) {
         // GET THE UI CONTROL WE WILL APPEND IT TO
         let listsElement = document.getElementById("todo-lists-list");
-
+        
         // MAKE AND ADD THE NODE
         let newListId = "todo-list-" + newList.id;
         let listElement = document.createElement("div");
         listElement.setAttribute("id", newListId);
         listElement.setAttribute("class", "todo_button");
         listElement.appendChild(document.createTextNode(newList.name));
+        listElement.addEventListener('click',function(){
+            let controls=document.getElementsByClassName('list-item-control')
+            for(let i=0;i<controls.length;i++){
+                controls[i].style.pointerEvents='all'
+                controls[i].style.color='white'
+            }
+            //document.getElementsByClassName('list-item-control').style.pointerEvents="all";
+        })
         listsElement.appendChild(listElement);
+        
 
         // SETUP THE HANDLER FOR WHEN SOMEONE MOUSE CLICKS ON OUR LIST
         let thisController = this.controller;
@@ -70,7 +79,7 @@ export default class ToDoView {
                                 + "<div style='margin-left:21%;display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
                                
                                 + "<div onclick='changeStatus("+ listItem.id+");' id='todo-list-status-" + listItem.id + "' class='status-col'>" + listItem.status + "</div>"
-                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:55%;'><select style='width:140%' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
+                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:55%;'><select style='width:140%;background-color:rgb(64,69,78);color:white' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
 
                                 + "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
