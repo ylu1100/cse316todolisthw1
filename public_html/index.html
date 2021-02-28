@@ -43,9 +43,48 @@
                 </div>
             </div>
             <div id="todo-list-items-div"></div>
+            <div id="delete-list-dialog">
+                <h1>Are you sure you want to delete this list?</h1>
+                <a id="delete-listyes">Yes</a>
+                <a id="delete-listno">No</a>
+            </div>
             <br />
         </div>
     </div>
 </body>
+<script>
+    function changeTodoDesc(id){
+        var task=document.getElementById('todo-list-desc-input-'+id)
+        var taskPrev=document.getElementById('todo-list-desc-'+id)
+        taskPrev.style.visibility='hidden'
+        task.style.display='block';
+        task.querySelector("input").focus();
+        var value=task.querySelector("input").value;
+        task.querySelector("input").value='';
+        task.querySelector("input").value=value;
+        task.querySelector("input").addEventListener('blur',function(){
+            console.log(1)
+            taskPrev.innerHTML=task.querySelector("input").value;
+            taskPrev.style.visibility='visible'
+            task.style.display='none';
+        });
+        
+    }
+    function changeTodoDate(id){
+        var date=document.getElementById('todo-list-date-'+id) 
+        var dateInput=document.getElementById('todo-list-date-input-'+id) 
+        console.log(dateInput.querySelector('input').value)
+        date.style.visibility='hidden';
+        dateInput.style.display='block';
+        dateInput.querySelector("input").focus();
+        dateInput.querySelector("input").addEventListener('blur',function(){
+            console.log(1)
+            date.innerHTML=dateInput.querySelector("input").value;
+            date.style.visibility='visible'
+            dateInput.style.display='none';
+        });
+    }
 
+
+</script>
 </html>

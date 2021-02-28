@@ -38,6 +38,7 @@ export class ToDoTrackerApp {
                     let listToAdd = modelToUpdate.addNewList(json.lists[i].name);
                     for (let j = 0; j < json.lists[i].items.length; j++) {
                         let itemData = json.lists[i].items[j];
+                        
                         modelToUpdate.addNewItemToList(listToAdd, itemData.description, itemData.due_date, itemData.status);
                     }
                 }
@@ -46,10 +47,12 @@ export class ToDoTrackerApp {
         xmlhttp.open("GET", testFile, true);
         xmlhttp.send();
     }
+    
 }
 
 window.onload = function() {
     // MAKE THE APP AND LAUNCH IT
     let app = new ToDoTrackerApp();
     app.launch("./src/test/TestToDoLists.json");
+    
 }

@@ -49,7 +49,7 @@ export default class ToDoView {
             this.appendNewListToView(list);
         }
     }
-
+    
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
     viewList(list) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
@@ -62,8 +62,12 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<div class='task-col'>" + listItem.description + "</div>"
-                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
+                                + "<div onclick='changeTodoDesc("+listItem.id+")'id='todo-list-desc-"+listItem.id+ "'  class='task-col' > " + listItem.description  + "</div>"
+                                +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
+                                
+                                + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col' onclick='changeTodoDate("+listItem.id+")'> " + listItem.dueDate + "</div>"
+                                + "<div style='display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
+                               
                                 + "<div class='status-col'>" + listItem.status + "</div>"
                                 + "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
@@ -75,7 +79,8 @@ export default class ToDoView {
             itemsListDiv.innerHTML += listItemElement;
         }
     }
-
+    
+    
     // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES
     setController(initController) {
         this.controller = initController;

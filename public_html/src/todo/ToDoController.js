@@ -12,7 +12,7 @@ export default class ToDoController {
     setModel(initModel) {
         this.model = initModel;
         let appModel = this.model;
-
+        
         // SETUP ALL THE EVENT HANDLERS SINCE THEY USE THE MODEL
         document.getElementById("add-list-button").onmousedown = function() {
             appModel.addNewList();
@@ -23,12 +23,23 @@ export default class ToDoController {
         document.getElementById("redo-button").onmousedown = function() {
             appModel.redo();
         }
-        document.getElementById("delete-list-button").onmousedown = function() {
+        document.getElementById("delete-list-button").onmousedown=function(){
+            appModel.openDeleteListConfirmation();
+        }
+        document.getElementById("delete-listno").onmousedown=function(){
+            appModel.closeDeleteListConfirmation();
+        }
+        
+        document.getElementById("delete-listyes").onmousedown=function(){
             appModel.removeCurrentList();
         }
+        
         document.getElementById("add-item-button").onmousedown = function() {
             appModel.addNewItemTransaction();
         }  
+        
+          
+       
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
@@ -36,4 +47,5 @@ export default class ToDoController {
         // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
         this.model.loadList(listId);
     }
+    
 }

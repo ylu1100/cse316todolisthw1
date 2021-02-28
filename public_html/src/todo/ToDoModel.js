@@ -26,6 +26,7 @@ export default class ToDoModel {
 
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST ITEM
         this.nextListItemId = 0;
+        this.deleteList=null;
     }
 
     /**
@@ -160,10 +161,21 @@ export default class ToDoModel {
         }
         this.toDoLists.splice(indexOfList, 1);
         this.currentList = null;
-        this.view.clearItemsList();
-        this.view.refreshLists(this.toDoLists);
-    }
-
+         this.view.clearItemsList();
+         this.view.refreshLists(this.toDoLists);
+         this.closeDeleteListConfirmation();
+        }
+    //open delete dialog
+    openDeleteListConfirmation(){
+        document.getElementById("delete-list-dialog").style.display="block";
+    } 
+    //close delete dialog
+    closeDeleteListConfirmation(){
+        document.getElementById("delete-list-dialog").style.display="none";
+    }    
+    changeDescription(id){
+        console.log(document.getElementById("todo-list-item"+id).innerHTML.getElementById("todo-list-desc").innerHTML);
+    } 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
     setView(initView) {
         this.view = initView;

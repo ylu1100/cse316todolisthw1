@@ -69,3 +69,33 @@
 .todo_button:hover {
     background-color: var(--swatch-contrast);
 }
+#delete-list-dialog{
+    margin:auto;
+    background-color:rgb(53,58,68);
+    border-color:white;
+    border-style:solid;
+    display:none
+}
+.list-item-card:hover{
+    background:lightslategrey;
+}
+.list-item-desc{
+    display:none;
+    margin-left:0;
+    position:absolute;
+}
+.list-item-desc-input{
+    background:transparent;
+   
+    color:White;
+}
+.due-date-col-input{
+    
+    margin-left:250px;
+    position:absolute;
+}
+.list-item-date-input{
+    background:transparent;
+   
+    color:White;
+}
