@@ -26,6 +26,7 @@ export default class ToDoView {
         listElement.onmousedown = function() {
             thisController.handleLoadList(newList.id);
         }
+        
     }
 
     // REMOVES ALL THE LISTS FROM THE LEFT SIDEBAR
@@ -57,18 +58,20 @@ export default class ToDoView {
 
         // GET RID OF ALL THE ITEMS
         this.clearItemsList();
-
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
+            
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<div onclick='changeTodoDesc("+listItem.id+")'id='todo-list-desc-"+listItem.id+ "'  class='task-col' > " + listItem.description  + "</div>"
-                                +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
+                                + "<div onclick='changeTodoDesc("+ listItem.id+");' id='todo-list-desc-"+listItem.id+ "'  class='task-col' > " + listItem.description  + "</div>"
+                                +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' id='tododescchange-" + listItem.id + "' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
                                 
                                 + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col' onclick='changeTodoDate("+listItem.id+")'> " + listItem.dueDate + "</div>"
-                                + "<div style='display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
+                                + "<div style='margin-left:21%;display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
                                
-                                + "<div class='status-col'>" + listItem.status + "</div>"
+                                + "<div onclick='changeStatus("+ listItem.id+");' id='todo-list-status-" + listItem.id + "' class='status-col'>" + listItem.status + "</div>"
+                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:55%;'><select style='width:140%' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
+
                                 + "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
@@ -76,6 +79,7 @@ export default class ToDoView {
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
+            
             itemsListDiv.innerHTML += listItemElement;
         }
     }

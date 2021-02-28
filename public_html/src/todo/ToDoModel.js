@@ -180,7 +180,11 @@ export default class ToDoModel {
     setView(initView) {
         this.view = initView;
     }
+    
 
+    getCurrentList(){
+        return this.currentList;
+    }
     /**
      * Undo the most recently done transaction if there is one.
      */
