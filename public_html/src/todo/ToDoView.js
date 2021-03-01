@@ -25,6 +25,12 @@ export default class ToDoView {
                 controls[i].style.pointerEvents='all'
                 controls[i].style.color='white'
             }
+            let lists=document.getElementsByClassName('todo_button')
+            for(let i=0;i<lists.length;i++){
+                lists[i].style.backgroundColor="rgb(53,58,68)";
+            }
+            listElement.style.backgroundColor="rgb(64,69,78)";
+            
             //document.getElementsByClassName('list-item-control').style.pointerEvents="all";
         })
         listsElement.appendChild(listElement);
@@ -53,7 +59,6 @@ export default class ToDoView {
         // GET THE UI CONTROL WE WILL APPEND IT TO
         let listsElement = document.getElementById("todo-lists-list");
         listsElement.innerHTML = "";
-
         for (let i = 0; i < lists.length; i++) {
             let list = lists[i];
             this.appendNewListToView(list);
@@ -61,7 +66,7 @@ export default class ToDoView {
     }
     
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
-    viewList(list) {
+    viewList(list,todoLists,index) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
@@ -94,49 +99,102 @@ export default class ToDoView {
         }
         
         for (let i = 0; i < list.items.length; i++) {
-            
             let listItem = list.items[i];
+            document.getElementById('todo-list-desc-'+listItem.id).addEventListener('click',function(){
+            //    let temp= todoLists[0]
+            //    todoLists[0]=todoLists[index]
+            //    todoLists[index]=temp
+               let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
+               let listsParent=lists[0].parentNode
+               let index=-1
+               for(let i=0;i<lists.length;i++){
+                   if(lists[i].innerHTML==list.name){
+                       index=i
+                   }
+               }
+               listsParent.insertBefore(lists[index],listsParent.firstChild)
+                //parentList.insertBefore(document.getElementById('todo-list-desc-'+listItem.id).parentNode,parentList.firstChild)
+            })
         document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").addEventListener('blur',function(){
             let val=document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").value
             listItem.description=val;
             document.getElementById('todo-list-desc-'+listItem.id).innerHTML=val;
             document.getElementById('todo-list-desc-input-'+listItem.id).style.display='none';
             document.getElementById('todo-list-desc-'+listItem.id).style.visibility='visible'
-            console.log("blurdasdar")
+            let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
+               let listsParent=lists[0].parentNode
+               let index=-1
+               for(let i=0;i<lists.length;i++){
+                   if(lists[i].innerHTML==list.name){
+                       index=i
+                   }
+               }
+               listsParent.insertBefore(lists[index],listsParent.firstChild)
         });
-        
-         let date=document.getElementById('todo-list-date-input-'+listItem.id)
-         date.querySelector('input').addEventListener('blur',function(){
-             
-             let newDate=date.querySelector("input").value;
-             listItem.dueDate=newDate;
-             document.getElementById('todo-list-date-'+listItem.id).innerHTML=newDate;
-             document.getElementById('todo-list-date-'+listItem.id).style.visibility='visible';
-             date.style.display='none';
+        document.getElementById('todo-list-date-'+listItem.id).addEventListener('click',function(){
+            let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
+               let listsParent=lists[0].parentNode
+               let index=-1
+               for(let i=0;i<lists.length;i++){
+                   if(lists[i].innerHTML==list.name){
+                       index=i
+                   }
+               }
+               listsParent.insertBefore(lists[index],listsParent.firstChild)
+        })
+        let date=document.getElementById('todo-list-date-input-'+listItem.id)
+        date.querySelector('input').addEventListener('blur',function(){
+         
+        let newDate=date.querySelector("input").value;
+            listItem.dueDate=newDate;
+            document.getElementById('todo-list-date-'+listItem.id).innerHTML=newDate;
+            document.getElementById('todo-list-date-'+listItem.id).style.visibility='visible';
+            date.style.display='none';
          });
-         let statusSelect=document.getElementById('status-col-selector-'+listItem.id);
-         for( let j=0;j<statusSelect.options.length;j++){
+        let statusSelect=document.getElementById('status-col-selector-'+listItem.id);
+        for( let j=0;j<statusSelect.options.length;j++){
              
             if(statusSelect.options[j].value==listItem.status){
                 statusSelect.selectedIndex=j;
                 break;
             }
-         }
-         let status=document.getElementById('todo-list-status-'+listItem.id);
-         let statusDiv=document.getElementById('status-col-selector-div-'+listItem.id);
-         status.addEventListener('click',function(){
+        }
+        let status=document.getElementById('todo-list-status-'+listItem.id);
+        if(status.innerHTML=='incomplete'){
+            status.style.color='rgb(234,145,84)';
+        }
+        else{
+            status.style.color='rgb(142,212,248)';
+        }
+        let statusDiv=document.getElementById('status-col-selector-div-'+listItem.id);
+        status.addEventListener('click',function(){
+            let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
+               let listsParent=lists[0].parentNode
+               let index=-1
+               for(let i=0;i<lists.length;i++){
+                   if(lists[i].innerHTML==list.name){
+                       index=i
+                   }
+               }
+               listsParent.insertBefore(lists[index],listsParent.firstChild)
              statusSelect.focus()
-         })
-         statusSelect.addEventListener('blur',function(){
+        })
+        statusSelect.addEventListener('blur',function(){
             statusDiv.style.display='none'
             status.style.visibility='visible'
+            if(status.innerHTML=='incomplete'){
+                status.style.color='rgb(234,145,84)';
+            }
+            else{
+                status.style.color='rgb(142,212,248)';
+            }
         })
-         statusSelect.addEventListener('click',function(){
+        statusSelect.addEventListener('click',function(){
              let newStatus=statusSelect.value;
              status.innerHTML=newStatus
              status.style.visibility='visible'
              listItem.status=newStatus
-         })
+        })
          
     }
     }

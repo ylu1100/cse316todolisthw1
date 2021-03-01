@@ -31,6 +31,11 @@ export default class ToDoController {
         
         document.getElementById("delete-listyes").onmousedown=function(){
             appModel.removeCurrentList();
+            let controls=document.getElementsByClassName('list-item-control')
+            for(let i=0;i<controls.length;i++){
+                controls[i].style.pointerEvents='none'
+                controls[i].style.color='rgb(64,69,78)'
+            }
         }
         
         document.getElementById("add-item-button").onmousedown = function() {

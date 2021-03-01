@@ -100,7 +100,7 @@ export default class ToDoModel {
     addNewItem() {
         let newItem = new ToDoListItem(this.nextListItemId++);
         this.currentList.items.push(newItem);
-        this.view.viewList(this.currentList);
+        this.view.viewList(this.currentList,this.toDoLists);
         
 
         return newItem;
@@ -130,7 +130,8 @@ export default class ToDoModel {
         if (listIndex >= 0) {
             let listToLoad = this.toDoLists[listIndex];
             this.currentList = listToLoad;
-            this.view.viewList(this.currentList);
+            this.view.viewList(this.currentList,this.toDoLists);
+            
         }
     }
 
