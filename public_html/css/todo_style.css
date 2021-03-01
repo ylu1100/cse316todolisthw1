@@ -106,3 +106,7 @@
     background-color:white;
     cursor:pointer
 }
+.material-icons:hover{
+    background-color:var(--swatch-complement);
+    cursor:pointer
+}

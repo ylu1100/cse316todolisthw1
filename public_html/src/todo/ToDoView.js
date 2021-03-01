@@ -26,10 +26,10 @@ export default class ToDoView {
                 controls[i].style.color='white'
             }
             let lists=document.getElementsByClassName('todo_button')
-            for(let i=0;i<lists.length;i++){
-                lists[i].style.backgroundColor="rgb(53,58,68)";
-            }
-            listElement.style.backgroundColor="rgb(64,69,78)";
+            // for(let i=0;i<lists.length;i++){
+            //     lists[i].style.backgroundColor="rgb(53,58,68)";
+            // }
+            // listElement.style.backgroundColor="rgb(64,69,78)";
             
             //document.getElementsByClassName('list-item-control').style.pointerEvents="all";
         })
@@ -87,9 +87,9 @@ export default class ToDoView {
                                 + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:55%;'><select style='width:140%;background-color:rgb(64,69,78);color:white' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
 
                                 + "<div class='list-controls-col'>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
-                                + " <div class='list-item-control material-icons'>close</div>"
+                                + " <div id='todo-move-up-"+ listItem.id + "' class='list-item-control material-icons'>keyboard_arrow_up</div>"
+                                + " <div id='todo-move-down-"+ listItem.id + "' class='list-item-control material-icons'>keyboard_arrow_down</div>"
+                                + " <div id='todo-close-"+ listItem.id + "' class='list-item-control material-icons'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
@@ -98,9 +98,58 @@ export default class ToDoView {
             
         }
         
-        for (let i = 0; i < list.items.length; i++) {
-            let listItem = list.items[i];
-            
+        for (let j = 0; j < list.items.length; j++) {
+            let listItem = list.items[j];
+            document.getElementById('todo-move-up-'+listItem.id).addEventListener('click',function(){
+                let item=document.getElementById('todo-list-item-'+listItem.id);
+                let itemList=document.getElementsByClassName('list-item-card');
+                let itemListArr=[...itemList]
+                let prevIndex=itemListArr.indexOf(item)-1
+                item.parentNode.insertBefore(item,itemListArr[prevIndex])
+                let index=-1
+                for(let i=0;i<list.items.length;i++){
+                    if(listItem.id==list.items[i].id){
+                        
+                        index=i
+                        break;
+                    }
+                }
+                let temp=list.items[index-1]
+                list.items[index-1]=listItem
+                list.items[index]=temp
+                
+            })
+            document.getElementById('todo-move-down-'+listItem.id).addEventListener('click',function(){
+                let item=document.getElementById('todo-list-item-'+listItem.id);
+                let itemList=document.getElementsByClassName('list-item-card');
+                let itemListArr=[...itemList]
+                let prevIndex=itemListArr.indexOf(item)+2
+                item.parentNode.insertBefore(item,itemListArr[prevIndex])
+                let index=-1
+                for(let i=0;i<list.items.length;i++){
+                    if(listItem.id==list.items[i].id){
+                        
+                        index=i
+                        break;
+                    }
+                }
+                let temp=list.items[index+1]
+                list.items[index+1]=listItem
+                list.items[index]=temp
+                
+            })
+            document.getElementById('todo-close-'+listItem.id).addEventListener('click',function(){
+                let item=document.getElementById('todo-close-'+listItem.id).parentNode.parentNode
+                let index=-1
+                for(let i=0;i<list.items.length;i++){
+                    if(listItem.id==list.items[i].id){
+                        index=i
+                        break;
+                    }
+                }
+                list.items.splice(index,1)
+                item.remove()
+            })
             document.getElementById('todo-list-desc-'+listItem.id).addEventListener('click',function(){
             //    let temp= todoLists[0]
             //    todoLists[0]=todoLists[index]
@@ -113,7 +162,9 @@ export default class ToDoView {
                        
                        index=i
                    }
+                   lists[i].style.color="white"
                }
+               lists[index].style.color='rgb(255,200,25)'
                listsParent.insertBefore(lists[index],listsParent.firstChild)
                 
             })
@@ -131,6 +182,7 @@ export default class ToDoView {
                        index=i
                    }
                }
+               
                listsParent.insertBefore(lists[index],listsParent.firstChild)
         });
         document.getElementById('todo-list-date-'+listItem.id).addEventListener('click',function(){
@@ -142,7 +194,9 @@ export default class ToDoView {
                        
                        index=i
                    }
+                   lists[i].style.color="white"
                }
+               lists[index].style.color='rgb(255,200,25)'
                listsParent.insertBefore(lists[index],listsParent.firstChild)
             })
         let date=document.getElementById('todo-list-date-input-'+listItem.id)
@@ -155,10 +209,10 @@ export default class ToDoView {
             date.style.display='none';
          });
         let statusSelect=document.getElementById('status-col-selector-'+listItem.id);
-        for( let j=0;j<statusSelect.options.length;j++){
+        for( let i=0;i<statusSelect.options.length;i++){
              
-            if(statusSelect.options[j].value==listItem.status){
-                statusSelect.selectedIndex=j;
+            if(statusSelect.options[i].value==listItem.status){
+                statusSelect.selectedIndex=i;
                 break;
             }
         }
@@ -179,7 +233,9 @@ export default class ToDoView {
                       
                        index=i
                    }
+                   lists[i].style.color="white"
                }
+               lists[index].style.color='rgb(255,200,25)'
                listsParent.insertBefore(lists[index],listsParent.firstChild)
              statusSelect.focus()
         })
