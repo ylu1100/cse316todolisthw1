@@ -68,10 +68,10 @@
 }
 
 .todo_button:hover {
-    background-color: lightgray;
+    background-color: white;
 }
 
-.list-item-card:hover{
+.list-item-row:hover{
     background:lightslategrey;
 }
 .task-col{
@@ -109,4 +109,10 @@
 .material-icons:hover{
     background-color:var(--swatch-complement);
     cursor:pointer
+}
+.todo_button_unselected{
+    background-color: rgb(53,58,68);
+}
+.todo_button_selected{
+    background-color: rgb(64,69,78);
 }

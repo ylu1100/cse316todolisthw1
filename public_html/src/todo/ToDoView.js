@@ -26,13 +26,16 @@ export default class ToDoView {
                 controls[i].style.color='white'
             }
             let lists=document.getElementsByClassName('todo_button')
-            // for(let i=0;i<lists.length;i++){
-            //     lists[i].style.backgroundColor="rgb(53,58,68)";
-            // }
-            // listElement.style.backgroundColor="rgb(64,69,78)";
+            for(let i=0;i<lists.length;i++){
+               lists[i].classList.remove('todo_button_selected')
+               lists[i].classList.add('todo_button_unselected')
+            }
+            listElement.classList.remove('todo_button_unselected')
+            listElement.classList.add('todo_button_selected')
             
             //document.getElementsByClassName('list-item-control').style.pointerEvents="all";
         })
+        
         listsElement.appendChild(listElement);
         
 
@@ -76,7 +79,7 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             
-            let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
+            let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card list-item-row'>"
                                 + "<div onclick='changeTodoDesc("+ listItem.id+");' id='todo-list-desc-"+listItem.id+ "'  class='task-col' > " + listItem.description  + "</div>"
                                 +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' id='tododescchange-" + listItem.id + "' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
                                 
@@ -162,7 +165,7 @@ export default class ToDoView {
                        
                        index=i
                    }
-                   lists[i].style.color="white"
+                   lists[i].style.color="rgb(233,237,229)"
                }
                lists[index].style.color='rgb(255,200,25)'
                listsParent.insertBefore(lists[index],listsParent.firstChild)
@@ -194,7 +197,7 @@ export default class ToDoView {
                        
                        index=i
                    }
-                   lists[i].style.color="white"
+                   lists[i].style.color="rgb(233,237,229)"
                }
                lists[index].style.color='rgb(255,200,25)'
                listsParent.insertBefore(lists[index],listsParent.firstChild)
@@ -233,7 +236,7 @@ export default class ToDoView {
                       
                        index=i
                    }
-                   lists[i].style.color="white"
+                   lists[i].style.color="rgb(233,237,229)"
                }
                lists[index].style.color='rgb(255,200,25)'
                listsParent.insertBefore(lists[index],listsParent.firstChild)

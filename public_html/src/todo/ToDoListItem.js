@@ -17,10 +17,21 @@ export default class ToDoListItem {
         this.description = "Unknown";
         let date=new Date();
         if(date.getMonth()+1<10){
-            this.dueDate = date.getFullYear()+"-"+"0"+(date.getMonth()+1)+"-"+date.getDate();
+            if(date.getDate()<10){
+                this.dueDate = date.getFullYear()+"-"+"0"+(date.getMonth()+1)+"-"+"0"+date.getDate();
+            }
+            else{
+                this.dueDate = date.getFullYear()+"-"+"0"+(date.getMonth()+1)+"-"+date.getDate();
+            }
         }
         else{
-            this.dueDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+            if(date.getDate()<10){
+                this.dueDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+"0"+date.getDate();
+            }
+            else{
+                this.dueDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+            }
+            
         }
         this.status = "incomplete";
     }
