@@ -66,7 +66,7 @@ export default class ToDoView {
     }
     
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
-    viewList(list,todoLists,index) {
+    viewList(list,todoLists) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
@@ -100,6 +100,7 @@ export default class ToDoView {
         
         for (let i = 0; i < list.items.length; i++) {
             let listItem = list.items[i];
+            
             document.getElementById('todo-list-desc-'+listItem.id).addEventListener('click',function(){
             //    let temp= todoLists[0]
             //    todoLists[0]=todoLists[index]
@@ -108,12 +109,13 @@ export default class ToDoView {
                let listsParent=lists[0].parentNode
                let index=-1
                for(let i=0;i<lists.length;i++){
-                   if(lists[i].innerHTML==list.name){
+                   if(lists[i].id==('todo-list-'+list.id)){
+                       
                        index=i
                    }
                }
                listsParent.insertBefore(lists[index],listsParent.firstChild)
-                //parentList.insertBefore(document.getElementById('todo-list-desc-'+listItem.id).parentNode,parentList.firstChild)
+                
             })
         document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").addEventListener('blur',function(){
             let val=document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").value
@@ -125,7 +127,7 @@ export default class ToDoView {
                let listsParent=lists[0].parentNode
                let index=-1
                for(let i=0;i<lists.length;i++){
-                   if(lists[i].innerHTML==list.name){
+                   if(lists[i].id==('todo-list-'+list.id)){
                        index=i
                    }
                }
@@ -136,12 +138,13 @@ export default class ToDoView {
                let listsParent=lists[0].parentNode
                let index=-1
                for(let i=0;i<lists.length;i++){
-                   if(lists[i].innerHTML==list.name){
+                   if(lists[i].id==('todo-list-'+list.id)){
+                       
                        index=i
                    }
                }
                listsParent.insertBefore(lists[index],listsParent.firstChild)
-        })
+            })
         let date=document.getElementById('todo-list-date-input-'+listItem.id)
         date.querySelector('input').addEventListener('blur',function(){
          
@@ -172,7 +175,8 @@ export default class ToDoView {
                let listsParent=lists[0].parentNode
                let index=-1
                for(let i=0;i<lists.length;i++){
-                   if(lists[i].innerHTML==list.name){
+                   if(lists[i].id==('todo-list-'+list.id)){
+                      
                        index=i
                    }
                }
