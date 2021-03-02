@@ -51,6 +51,7 @@
 
 .task-col {
     width:25%;
+    
 }
 
 .due-date-col {
@@ -69,10 +70,11 @@
 
 .list-item-control {
     pointer-events: none;
-    color:rgb(64,69,78);
+    color:rgb(53,58,68);
     width: 20%;
 }
 
 #todo-list-items-div{
-    height:100vh
+    height:100%;
+    overflow-y:scroll
 }

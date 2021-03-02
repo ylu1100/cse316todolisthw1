@@ -33,6 +33,7 @@
 #left-sidebar {
     background-color: var(--swatch-complement);
     color: rgb(233,237,240);
+    
 }
 
 #workspace {
@@ -70,13 +71,14 @@
 .todo_button:hover {
     background-color: white;
 }
-
+.list-item-row{
+    height:50px
+}
 .list-item-row:hover{
     background:lightslategrey;
-}
-.task-col{
     
 }
+
 .list-item-desc{
     display:none;
     margin-left:0;
