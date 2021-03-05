@@ -16,7 +16,7 @@ export default class ToDoView {
     appendNewListToView(newList) {
         // GET THE UI CONTROL WE WILL APPEND IT TO
         let listsElement = document.getElementById("todo-lists-list");
-        
+        let appModel=this.model
         // MAKE AND ADD THE NODE
         let newListId = "todo-list-" + newList.id;
         let listElement = document.createElement("div");
@@ -24,6 +24,7 @@ export default class ToDoView {
         listElement.setAttribute("class", "todo_button");
         listElement.appendChild(document.createTextNode(newList.name));
         listElement.addEventListener('click',function(){
+            appModel.resetStack()
             let controls=document.getElementsByClassName('list-item-control')
             for(let i=0;i<controls.length;i++){
                 controls[i].style.pointerEvents='all'

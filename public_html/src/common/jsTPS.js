@@ -179,6 +179,7 @@ export default class jsTPS {
         if (this.hasTransactionToUndo()) {
             this.performingUndo = true;
             let transaction = this.transactions[this.mostRecentTransaction];
+            console.log(this.transactions)
             transaction.undoTransaction();
             this.mostRecentTransaction--;
             this.performingUndo = false;

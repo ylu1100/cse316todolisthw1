@@ -107,6 +107,9 @@ export default class ToDoModel {
         
         this.tps.addTransaction(transaction);
     }
+    resetStack(){
+        this.tps.clearAllTransactions()
+    }
     /**
      * addNewList
      * 
@@ -194,7 +197,7 @@ export default class ToDoModel {
        
     }
     changeDate(date,id){
-        console.log(date)
+   
         for(let i=0;i<this.currentList.items.length;i++){
             if(this.currentList.items[i].id==id){
                 this.currentList.items[i].dueDate=date

@@ -64,7 +64,7 @@ export default class ToDoController {
                 firstRowIcons[1].style.color='white'
                 firstRowIcons[2].style.pointerEvents='all'
                 firstRowIcons[2].style.color='white'
-                console.log(firstRowIcons[2])
+               
                
                  let allRows=document.getElementsByClassName('list-item-card list-item-row')
                  for(let i=1;i<allRows.length;i++){
@@ -78,7 +78,7 @@ export default class ToDoController {
                  let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
                  lastRowIcons[1].style.pointerEvents='none'
                  lastRowIcons[1].style.color='rgb(53,58,68)'
-                 console.log(firstRowIcons[1].style.cssText)
+                
         }  
        
     }
