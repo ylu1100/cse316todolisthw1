@@ -19,6 +19,7 @@ export class ToDoTrackerApp {
 
         // AND THE CONTROLLER NEEDS TO MODEL TO UPDATE WHEN INTERACTIONS HAPPEN
         this.controller.setModel(this.model);
+        this.view.setModel(this.model)
     }
 
     /**

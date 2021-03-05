@@ -6,8 +6,12 @@
  * This class generates all HTML content for the UI.
  */
 export default class ToDoView {
-    constructor() {}
-
+    constructor() {
+    }
+    setModel(initModel){
+        this.model=initModel;
+        
+    }
     // ADDS A LIST TO SELECT FROM IN THE LEFT SIDEBAR
     appendNewListToView(newList) {
         // GET THE UI CONTROL WE WILL APPEND IT TO
@@ -25,14 +29,15 @@ export default class ToDoView {
                 controls[i].style.pointerEvents='all'
                 controls[i].style.color='white'
             }
-            let lists=document.getElementsByClassName('todo_button')
+            let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
             for(let i=0;i<lists.length;i++){
                lists[i].classList.remove('todo_button_selected')
                lists[i].classList.add('todo_button_unselected')
+               lists[i].style.color="rgb(233,237,229)"
             }
             listElement.classList.remove('todo_button_unselected')
             listElement.classList.add('todo_button_selected')
-
+            listElement.parentNode.insertBefore(listElement,listElement.parentNode.firstChild)
             let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
             let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
             firstRowIcons[0].style.pointerEvents='none'
@@ -40,6 +45,7 @@ export default class ToDoView {
             let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
             lastRowIcons[1].style.pointerEvents='none'
             lastRowIcons[1].style.color='rgb(53,58,68)'
+
             //document.getElementsByClassName('list-item-control').style.pointerEvents="all";
         })
         listElement.addEventListener('dblclick',function(){
@@ -87,6 +93,8 @@ export default class ToDoView {
     
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
     viewList(list) {
+        let appModel=this.model
+        
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
@@ -97,7 +105,7 @@ export default class ToDoView {
             let listItem = list.items[i];
             
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card list-item-row'>"
-                                + "<div onclick='changeTodoDesc("+ listItem.id+");' id='todo-list-desc-"+listItem.id+ "'  class='task-col' > " + listItem.description  + "</div>"
+                                + "<div onclick='changeTodoDesc("+ listItem.id+");' id='todo-list-desc-"+listItem.id+ "'  class='task-col task-desc' > " + listItem.description  + "</div>"
                                 +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' id='tododescchange-" + listItem.id + "' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
                                 
                                 + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col' onclick='changeTodoDate("+listItem.id+")'>" + listItem.dueDate + "</div>"
@@ -126,6 +134,7 @@ export default class ToDoView {
                 let itemList=document.getElementsByClassName('list-item-card');
                 let itemListArr=[...itemList]
                 let prevIndex=itemListArr.indexOf(item)-1
+              
                 item.parentNode.insertBefore(item,itemListArr[prevIndex])
                 let index=-1
                 for(let i=0;i<list.items.length;i++){
@@ -135,9 +144,10 @@ export default class ToDoView {
                         break;
                     }
                 }
-                let temp=list.items[index-1]
-                list.items[index-1]=listItem
-                list.items[index]=temp
+                appModel.changePositionTransaction(index,index-1,listItem.id)
+                // let temp=list.items[index-1]
+                // list.items[index-1]=listItem
+                // list.items[index]=temp
                 let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
                 let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
                 firstRowIcons[0].style.pointerEvents='none'
@@ -169,9 +179,10 @@ export default class ToDoView {
                         break;
                     }
                 }
-                let temp=list.items[index+1]
-                list.items[index+1]=listItem
-                list.items[index]=temp
+                appModel.changePositionTransaction(index,index+1,listItem.id)
+                // let temp=list.items[index+1]
+                // list.items[index+1]=listItem
+                // list.items[index]=temp
 
                 let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
                 let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
@@ -191,14 +202,14 @@ export default class ToDoView {
             })
             document.getElementById('todo-close-'+listItem.id).addEventListener('click',function(){
                 let item=document.getElementById('todo-close-'+listItem.id).parentNode.parentNode
-                let index=-1
-                for(let i=0;i<list.items.length;i++){
-                    if(listItem.id==list.items[i].id){
-                        index=i
-                        break;
-                    }
-                }
-                list.items.splice(index,1)
+                // let index=-1
+                // for(let i=0;i<list.items.length;i++){
+                //     if(listItem.id==list.items[i].id){
+                //         index=i
+                //         break;
+                //     }
+                // }
+                appModel.removeOldItemTransaction(listItem)
                 item.remove()
                 let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
                 let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
@@ -225,7 +236,6 @@ export default class ToDoView {
                let index=-1
                for(let i=0;i<lists.length;i++){
                    if(lists[i].id==('todo-list-'+list.id)){
-                       
                        index=i
                    }
                    lists[i].style.color="rgb(233,237,229)"
@@ -236,7 +246,11 @@ export default class ToDoView {
             })
         document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").addEventListener('blur',function(){
             let val=document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").value
+            if(listItem.description!=val){
+            appModel.changeTaskTextTransaction(listItem.description,val,listItem.id)
+            }
             listItem.description=val;
+            
             document.getElementById('todo-list-desc-'+listItem.id).innerHTML=val;
             document.getElementById('todo-list-desc-input-'+listItem.id).style.display='none';
             document.getElementById('todo-list-desc-'+listItem.id).style.visibility='visible'
@@ -269,7 +283,10 @@ export default class ToDoView {
         date.querySelector('input').addEventListener('blur',function(){
          
         let newDate=date.querySelector("input").value;
-            listItem.dueDate=newDate;
+        if(listItem.dueDate!=newDate){
+        appModel.changeDateTransaction(listItem.dueDate,newDate,listItem.id)   
+        }
+        listItem.dueDate=newDate;
             document.getElementById('todo-list-date-'+listItem.id).innerHTML=newDate;
             document.getElementById('todo-list-date-'+listItem.id).style.visibility='visible';
             date.style.display='none';
@@ -306,6 +323,7 @@ export default class ToDoView {
              statusSelect.focus()
         })
         statusSelect.addEventListener('blur',function(){
+            
             statusDiv.style.display='none'
             status.style.visibility='visible'
             if(status.innerHTML=='incomplete'){
@@ -318,7 +336,10 @@ export default class ToDoView {
         statusSelect.addEventListener('click',function(){
              let newStatus=statusSelect.value;
              status.innerHTML=newStatus
-             status.style.visibility='visible'
+             //status.style.visibility='visible'
+             if(listItem.status!=newStatus){
+                 appModel.changeStatusTransaction(listItem.status,newStatus,listItem.id)
+             }
              listItem.status=newStatus
         })
         

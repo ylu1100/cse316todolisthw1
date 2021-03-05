@@ -4,6 +4,11 @@ import ToDoList from './ToDoList.js'
 import ToDoListItem from './ToDoListItem.js'
 import jsTPS from '../common/jsTPS.js'
 import AddNewItem_Transaction from './transactions/AddNewItem_Transaction.js'
+import ChangeTaskText from './transactions/ChangeTaskText_Transaction.js'
+import ChangeDate from './transactions/ChangeDate_Transaction.js'
+import ChangeStatus from './transactions/ChangeStatus_Transaction.js'
+import ChangePosition from './transactions/ChangePosition_Transaction.js'
+import AddOldItem from './transactions/AddOldItem_Transaction.js'
 
 /**
  * ToDoModel
@@ -23,7 +28,7 @@ export default class ToDoModel {
 
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST
         this.nextListId = 0;
-
+        this.taskChangeId=null
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST ITEM
         this.nextListItemId = 0;
         this.deleteList=null;
@@ -74,9 +79,34 @@ export default class ToDoModel {
      */
     addNewItemTransaction() {
         let transaction = new AddNewItem_Transaction(this);
+        
         this.tps.addTransaction(transaction);
     }
-
+    changeTaskTextTransaction(oldItem,newItem,id){
+        let transaction = new ChangeTaskText(oldItem,newItem,id,this);
+        
+        this.tps.addTransaction(transaction);
+    }
+    changeDateTransaction(oldItem,newItem,id){
+        let transaction = new ChangeDate(oldItem,newItem,id,this);
+        
+        this.tps.addTransaction(transaction);
+    }
+    changeStatusTransaction(oldItem,newItem,id){
+        let transaction = new ChangeStatus(oldItem,newItem,id,this);
+        
+        this.tps.addTransaction(transaction);
+    }
+    changePositionTransaction(oldItem,newItem,id){
+        let transaction = new ChangePosition(oldItem,newItem,id,this);
+        
+        this.tps.addTransaction(transaction);
+    }
+    removeOldItemTransaction(oldItem){
+        let transaction = new AddOldItem(oldItem,this);
+        
+        this.tps.addTransaction(transaction);
+    }
     /**
      * addNewList
      * 
@@ -105,6 +135,7 @@ export default class ToDoModel {
 
         return newItem;
     }
+
 
     /**
      * Makes a new list item with the provided data and adds it to the list.
@@ -151,7 +182,52 @@ export default class ToDoModel {
         this.currentList.removeItem(itemToRemove);
         this.view.viewList(this.currentList);
     }
-
+    changeDescription(desc,id){
+        
+        for(let i=0;i<this.currentList.items.length;i++){
+            if(this.currentList.items[i].id==id){
+                this.currentList.items[i].description=desc
+                break;
+            }
+        }
+        this.view.viewList(this.currentList);
+       
+    }
+    changeDate(date,id){
+        console.log(date)
+        for(let i=0;i<this.currentList.items.length;i++){
+            if(this.currentList.items[i].id==id){
+                this.currentList.items[i].dueDate=date
+                break;
+            }
+        }
+        this.view.viewList(this.currentList);
+    }
+    changeStatus(status,id){
+        for(let i=0;i<this.currentList.items.length;i++){
+            if(this.currentList.items[i].id==id){
+                this.currentList.items[i].status=status
+                break;
+            }
+        }
+        this.view.viewList(this.currentList);
+    }
+    changePos(index,id){
+        for(let i=0;i<this.currentList.items.length;i++){
+            if(this.currentList.items[i].id==id){
+                let temp=this.currentList.items[index]
+                this.currentList.items[index]=this.currentList.items[i]
+                this.currentList.items[i]=temp
+                break;
+            }
+        }
+        this.view.viewList(this.currentList);
+    }
+    addOldItem(oldItem){
+        this.currentList.items.push(oldItem);
+        this.view.viewList(this.currentList,this.toDoLists);
+        
+    }
     /**
      * Finds and then removes the current list.
      */
@@ -176,9 +252,7 @@ export default class ToDoModel {
     closeDeleteListConfirmation(){
         document.getElementById("delete-list-dialog").style.display="none";
     }    
-    changeDescription(id){
-        console.log(document.getElementById("todo-list-item"+id).innerHTML.getElementById("todo-list-desc").innerHTML);
-    } 
+    
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
     setView(initView) {
         this.view = initView;

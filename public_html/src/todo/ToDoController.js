@@ -80,13 +80,18 @@ export default class ToDoController {
                  lastRowIcons[1].style.color='rgb(53,58,68)'
                  console.log(firstRowIcons[1].style.cssText)
         }  
-
+       
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
     handleLoadList(listId) {
         // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
+        
         this.model.loadList(listId);
+        
+        
+        
+
         // let listItems=this.model.getCurrentList().items
         // for(let i =0;i<listItems.length;i++){
         //    document.getElementById('todo-list-desc-input-'+listItems[i].id).querySelector("input").addEventListener('blur',function(){
