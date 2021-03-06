@@ -17,10 +17,36 @@ export default class ToDoController {
             appModel.addNewList();
         }
         document.getElementById("undo-button").onmousedown = function() {
+            
             appModel.undo();
+            if(appModel.getUndoSize()==0){
+                document.getElementById('undo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('undo-button').classList.remove('add_list_disabled')
+            }
+            if(appModel.getRedoSize()==0){
+                document.getElementById('redo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('redo-button').classList.remove('add_list_disabled')
+            }
         }
         document.getElementById("redo-button").onmousedown = function() {
+            
             appModel.redo();
+            if(appModel.getUndoSize()==0){
+                document.getElementById('undo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('undo-button').classList.remove('add_list_disabled')
+            }
+            if(appModel.getRedoSize()==0){
+                document.getElementById('redo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('redo-button').classList.remove('add_list_disabled')
+            }
         }
         document.getElementById("delete-list-button").onmousedown=function(){
             appModel.openDeleteListConfirmation();
@@ -29,6 +55,11 @@ export default class ToDoController {
             appModel.closeDeleteListConfirmation();
         }
         document.getElementById('close-list-button').onmousedown=function(){
+            appModel.resetStack();
+            document.getElementById('add-list-button').classList.remove('add_list_disabled')
+            document.getElementById('redo-button').classList.add('add_list_disabled')
+            document.getElementById('undo-button').classList.add('add_list_disabled')
+
             while (document.getElementById('todo-list-items-div').firstChild) {
                 document.getElementById('todo-list-items-div').removeChild(document.getElementById('todo-list-items-div').firstChild);
             }
@@ -46,6 +77,7 @@ export default class ToDoController {
         }
         document.getElementById("delete-listyes").onmousedown=function(){
             appModel.removeCurrentList();
+            document.getElementById('add-list-button').classList.remove('add_list_disabled')
             let controls=document.getElementsByClassName('list-item-control')
             for(let i=0;i<controls.length;i++){
                 controls[i].style.pointerEvents='none'

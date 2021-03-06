@@ -23,12 +23,12 @@
     grid-template-columns: 60% 40%;
 }
 
-#left-sidebar-header-text {
+.left-sidebar-header-text {
     
 }
 
-#left-sidebar-controls {
-    text-align: right;
+.left-sidebar-controls {
+    
 }
 
 #workspace {
@@ -50,16 +50,21 @@
 }
 
 .task-col {
+    
     width:25%;
     
 }
 
 .due-date-col {
+    text-align: center;
     width:25%;
+    
 }
 
 .status-col {
-    width:25%
+    text-align: center;
+    width:25%;
+    
 }
 
 .list-controls-col {
@@ -71,13 +76,23 @@
     pointer-events: none;
     color:rgb(53,58,68);
 }
+.add_list_disabled{
+    pointer-events: none;
+    color:rgb(64,69,78);
+}
 .list-item-control {
     
   
     width: 20%;
 }
+.list-item-control:hover{
+    color:lightslategrey;
+}
 
 #todo-list-items-div{
     height:100%;
     overflow-y:scroll
+}
+.top_right_controls:hover{
+    background-color:lightslategrey;
 }

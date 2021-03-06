@@ -6,8 +6,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Exa&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./css/todo_layout.css" />
+    
     <link rel="stylesheet" type="text/css" href="./css/todo_style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/todo_layout.css" />
     
 </head>
 
@@ -20,11 +21,13 @@
         </div>
         <div id="left-sidebar" class="grid-item">
             <div id="left-sidebar-header" class="grid-item">
-                <span class="left-sidebar-header-text">Todolists</span>
+                <span class="left-sidebar-header-text"><h2>Todolists</h2></span>
                 <span class="left-sidebar-controls" id="add-undo-redo-box">
-                    <span id="add-list-button" class="material-icons todo_button ">add_box</span>
-                    <span id="undo-button" class="material-icons todo_button ">undo</span>
-                    <span id="redo-button" class="material-icons todo_button">redo</span>
+                    <span id="add-list-button" class="material-icons todo_button sidebar_buttons">add_box</span>
+                    <br>
+                    <span id="undo-button" class="material-icons todo_button sidebar_buttons">undo</span>
+                    
+                    <span id="redo-button" class="material-icons todo_button sidebar_buttons">redo</span>
                 </span>
             </div>
             <div id="todo-lists-list" style="overflow-y:scroll;height:87vh;background-color:rgb(53,58,68)" class="grid-item"></div>
@@ -37,9 +40,9 @@
                 <div class="list-controls-col">
                     <div class="list-item-control"></div>
                     <div class="list-item-control"></div>
-                    <div id="add-item-button" class="list-item-control material-icons top_right_controls_disabled">add_box</span></div>
-                    <div id="delete-list-button" class="list-item-control material-icons top_right_controls_disabled">delete</span></div>
-                    <div id="close-list-button" class="list-item-control material-icons top_right_controls_disabled">close</span></div>
+                    <div id="add-item-button" class="list-item-control material-icons top_right_controls_disabled top_right_controls">add_box</span></div>
+                    <div id="delete-list-button" class="list-item-control material-icons top_right_controls_disabled top_right_controls">delete</span></div>
+                    <div id="close-list-button" class="list-item-control material-icons top_right_controls_disabled top_right_controls">close</span></div>
                 </div>
             </div>
             <div id="todo-list-items-div"></div>
@@ -63,6 +66,7 @@
 </body>
 <script>
     function changeTodoDesc(id){
+        document.getElementById('add-list-button').classList.add('add_list_disabled')
         var task=document.getElementById('todo-list-desc-input-'+id)
         var taskPrev=document.getElementById('todo-list-desc-'+id)
         taskPrev.style.visibility='hidden'
@@ -87,6 +91,7 @@
         selectInput.style.display='block';
         selectInput.focus();
     }
+    
     
 
 

@@ -18,7 +18,9 @@
 
 #grid-container {
     background-color: var(--swatch-foundation);
-    font-family: var(--font-primary);
+    font-family: 'Consolas';
+    font-weight: bold;
+    font-size:15px
 }
 
 .grid-item {
@@ -44,10 +46,12 @@
 #title-div {
     color: rgb(255,200,25);
     font-weight: bold;
-    font-size: 14pt;
+    font-size: 20pt;
+    
 }
 
 #left-sidebar-header {
+    
     border-bottom: dotted;
 }
 
@@ -64,12 +68,15 @@
 }
 
 .todo_button {
+    
     cursor:pointer;
     background-color: var(--swatch-complement);
+    text-align: center;
+    
 }
 
 .todo_button:hover {
-    background-color: white;
+    background-color: lightslategrey;
 }
 .list-item-row{
     height:50px
@@ -81,7 +88,7 @@
 
 .list-item-desc{
     display:none;
-    margin-left:0;
+    margin-left:20px;
     position:absolute;
 }
 .list-item-desc-input{
@@ -91,12 +98,11 @@
 }
 .due-date-col-input{
     
-    margin-left:250px;
     position:absolute;
 }
 .list-item-date-input{
     background:transparent;
-   
+    margin-left:90%;
     color:White;
 }
 .deleteButton{
@@ -113,8 +119,32 @@
     cursor:pointer
 }
 .todo_button_unselected{
+    
     background-color: rgb(53,58,68);
 }
 .todo_button_selected{
     background-color: rgb(64,69,78);
+    
+}
+.sidebar_list_item{
+    text-overflow:ellipsis;
+    
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-size:16px
+}
+.todo-lists-list::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: var(--darkblue-gray);
+}
+.sidebar_buttons{
+    margin-left:0
+}
+.task-desc{
+    margin-left:10px;
+}
+.sidebar_buttons:hover{
+    background:lightslategrey;
 }

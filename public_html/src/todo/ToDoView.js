@@ -21,9 +21,11 @@ export default class ToDoView {
         let newListId = "todo-list-" + newList.id;
         let listElement = document.createElement("div");
         listElement.setAttribute("id", newListId);
-        listElement.setAttribute("class", "todo_button");
+        listElement.setAttribute("class", "todo_button sidebar_list_item");
         listElement.appendChild(document.createTextNode(newList.name));
         listElement.addEventListener('click',function(){
+
+            document.getElementById('add-list-button').classList.remove('add_list_disabled')
             appModel.resetStack()
             let controls=document.getElementsByClassName('list-item-control')
             for(let i=0;i<controls.length;i++){
@@ -39,6 +41,7 @@ export default class ToDoView {
             listElement.classList.remove('todo_button_unselected')
             listElement.classList.add('todo_button_selected')
             listElement.parentNode.insertBefore(listElement,listElement.parentNode.firstChild)
+            listElement.style.color='rgb(255,200,25)'
             let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
             let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
             firstRowIcons[0].style.pointerEvents='none'
@@ -56,7 +59,12 @@ export default class ToDoView {
             document.getElementById('listrenameinput-'+newListId).value=newList.name
             document.getElementById('listrenameinput-'+newListId).addEventListener('blur',function(){
                 newList.name=document.getElementById('listrenameinput-'+newListId).value
-                listElement.innerHTML=newList.name
+                if(newList.name.length>17){
+                    listElement.innerHTML=newList.name.substring(0,17)+'...';
+                }
+                else{
+                listElement.innerHTML=newList.name;
+                }
            })
         })
         
@@ -93,12 +101,26 @@ export default class ToDoView {
     }
     
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
+    
     viewList(list) {
         let appModel=this.model
-        
+        if(appModel.getUndoSize()==0){
+            document.getElementById('undo-button').classList.add('add_list_disabled')
+        }
+        else{
+            document.getElementById('undo-button').classList.remove('add_list_disabled')
+        }
+
+        if(appModel.getRedoSize()==0){
+            console.log(appModel.getRedoSize())
+            document.getElementById('redo-button').classList.add('add_list_disabled')
+        }
+        else{
+            document.getElementById('redo-button').classList.remove('add_list_disabled')
+        }
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
-
+        
         // GET RID OF ALL THE ITEMS
         this.clearItemsList();
         for (let i = 0; i < list.items.length; i++) {
@@ -113,7 +135,7 @@ export default class ToDoView {
                                 + "<div style='margin-left:21%;display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
                                
                                 + "<div onclick='changeStatus("+ listItem.id+");' id='todo-list-status-" + listItem.id + "' class='status-col'>" + listItem.status + "</div>"
-                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:55%;'><select style='width:140%;background-color:rgb(64,69,78);color:white' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
+                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:63%;'><select style='width:140%;background-color:rgb(64,69,78);color:white' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
 
                                 + "<div class='list-controls-col'>"
                                 + " <div id='todo-move-up-"+ listItem.id + "' class='list-item-control material-icons'>keyboard_arrow_up</div>"
@@ -135,7 +157,7 @@ export default class ToDoView {
                 let itemList=document.getElementsByClassName('list-item-card');
                 let itemListArr=[...itemList]
                 let prevIndex=itemListArr.indexOf(item)-1
-              
+                document.getElementById('add-list-button').classList.add('add_list_disabled')
                 item.parentNode.insertBefore(item,itemListArr[prevIndex])
                 let index=-1
                 for(let i=0;i<list.items.length;i++){
@@ -145,7 +167,20 @@ export default class ToDoView {
                         break;
                     }
                 }
+                
                 appModel.changePositionTransaction(index,index-1,listItem.id)
+                if(appModel.getUndoSize()==0){
+                    document.getElementById('undo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('undo-button').classList.remove('add_list_disabled')
+                }
+                if(appModel.getRedoSize()==0){
+                    document.getElementById('redo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('redo-button').classList.remove('add_list_disabled')
+                }
                 // let temp=list.items[index-1]
                 // list.items[index-1]=listItem
                 // list.items[index]=temp
@@ -167,6 +202,7 @@ export default class ToDoView {
                  lastRowIcons[1].style.color='rgb(53,58,68)'
             })
             document.getElementById('todo-move-down-'+listItem.id).addEventListener('click',function(){
+                document.getElementById('add-list-button').classList.add('add_list_disabled')
                 let item=document.getElementById('todo-list-item-'+listItem.id);
                 let itemList=document.getElementsByClassName('list-item-card');
                 let itemListArr=[...itemList]
@@ -180,7 +216,20 @@ export default class ToDoView {
                         break;
                     }
                 }
+                
                 appModel.changePositionTransaction(index,index+1,listItem.id)
+                if(appModel.getUndoSize()==0){
+                    document.getElementById('undo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('undo-button').classList.remove('add_list_disabled')
+                }
+                if(appModel.getRedoSize()==0){
+                    document.getElementById('redo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('redo-button').classList.remove('add_list_disabled')
+                }
                 // let temp=list.items[index+1]
                 // list.items[index+1]=listItem
                 // list.items[index]=temp
@@ -202,6 +251,7 @@ export default class ToDoView {
                  lastRowIcons[1].style.color='rgb(53,58,68)'
             })
             document.getElementById('todo-close-'+listItem.id).addEventListener('click',function(){
+                document.getElementById('add-list-button').classList.add('add_list_disabled')
                 let item=document.getElementById('todo-close-'+listItem.id).parentNode.parentNode
                 // let index=-1
                 // for(let i=0;i<list.items.length;i++){
@@ -210,7 +260,20 @@ export default class ToDoView {
                 //         break;
                 //     }
                 // }
+                
                 appModel.removeOldItemTransaction(listItem)
+                if(appModel.getUndoSize()==0){
+                    document.getElementById('undo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('undo-button').classList.remove('add_list_disabled')
+                }
+                if(appModel.getRedoSize()==0){
+                    document.getElementById('redo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('redo-button').classList.remove('add_list_disabled')
+                }
                 item.remove()
                 let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
                 let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
@@ -232,8 +295,10 @@ export default class ToDoView {
             //    let temp= todoLists[0]
             //    todoLists[0]=todoLists[index]
             //    todoLists[index]=temp
-               let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
-               let listsParent=lists[0].parentNode
+            document.getElementById('add-list-button').classList.add('add_list_disabled')   
+            let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
+          
+            let listsParent=lists[0].parentNode
                let index=-1
                for(let i=0;i<lists.length;i++){
                    if(lists[i].id==('todo-list-'+list.id)){
@@ -248,8 +313,21 @@ export default class ToDoView {
         document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").addEventListener('blur',function(){
             let val=document.getElementById('todo-list-desc-input-'+listItem.id).querySelector("input").value
             if(listItem.description!=val){
+               
             appModel.changeTaskTextTransaction(listItem.description,val,listItem.id)
+            if(appModel.getUndoSize()==0){
+                document.getElementById('undo-button').classList.add('add_list_disabled')
             }
+            else{
+                document.getElementById('undo-button').classList.remove('add_list_disabled')
+            }
+            if(appModel.getRedoSize()==0){
+                document.getElementById('redo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('redo-button').classList.remove('add_list_disabled')
+            }
+        }
             listItem.description=val;
             
             document.getElementById('todo-list-desc-'+listItem.id).innerHTML=val;
@@ -267,6 +345,7 @@ export default class ToDoView {
                listsParent.insertBefore(lists[index],listsParent.firstChild)
         });
         document.getElementById('todo-list-date-'+listItem.id).addEventListener('click',function(){
+            document.getElementById('add-list-button').classList.add('add_list_disabled')
             let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
                let listsParent=lists[0].parentNode
                let index=-1
@@ -285,14 +364,28 @@ export default class ToDoView {
          
         let newDate=date.querySelector("input").value;
         if(listItem.dueDate!=newDate){
+           
         appModel.changeDateTransaction(listItem.dueDate,newDate,listItem.id)   
+        if(appModel.getUndoSize()==0){
+            document.getElementById('undo-button').classList.add('add_list_disabled')
         }
+        else{
+            document.getElementById('undo-button').classList.remove('add_list_disabled')
+        }
+        if(appModel.getRedoSize()==0){
+            document.getElementById('redo-button').classList.add('add_list_disabled')
+        }
+        else{
+            document.getElementById('redo-button').classList.remove('add_list_disabled')
+        }
+    }
         listItem.dueDate=newDate;
             document.getElementById('todo-list-date-'+listItem.id).innerHTML=newDate;
             document.getElementById('todo-list-date-'+listItem.id).style.visibility='visible';
             date.style.display='none';
          });
         let statusSelect=document.getElementById('status-col-selector-'+listItem.id);
+        
         for( let i=0;i<statusSelect.options.length;i++){
              
             if(statusSelect.options[i].value==listItem.status){
@@ -301,6 +394,7 @@ export default class ToDoView {
             }
         }
         let status=document.getElementById('todo-list-status-'+listItem.id);
+        
         if(status.innerHTML=='incomplete'){
             status.style.color='rgb(234,145,84)';
         }
@@ -309,6 +403,7 @@ export default class ToDoView {
         }
         let statusDiv=document.getElementById('status-col-selector-div-'+listItem.id);
         status.addEventListener('click',function(){
+            document.getElementById('add-list-button').classList.add('add_list_disabled')
             let lists=document.getElementById('todo-lists-list').getElementsByClassName('todo_button')
                let listsParent=lists[0].parentNode
                let index=-1
@@ -339,13 +434,29 @@ export default class ToDoView {
              status.innerHTML=newStatus
              //status.style.visibility='visible'
              if(listItem.status!=newStatus){
+               
                  appModel.changeStatusTransaction(listItem.status,newStatus,listItem.id)
-             }
+                 if(appModel.getUndoSize()==0){
+                    document.getElementById('undo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('undo-button').classList.remove('add_list_disabled')
+                }
+
+                if(appModel.getRedoSize()==0){
+                    console.log(appModel.getRedoSize())
+                    document.getElementById('redo-button').classList.add('add_list_disabled')
+                }
+                else{
+                    document.getElementById('redo-button').classList.remove('add_list_disabled')
+                }
+                }
              listItem.status=newStatus
         })
         
          
     }
+    
     }
     
     

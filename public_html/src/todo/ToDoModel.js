@@ -110,6 +110,9 @@ export default class ToDoModel {
     resetStack(){
         this.tps.clearAllTransactions()
     }
+    TPSIsEmpty(){
+        return this.tps.getSize()===0
+    }
     /**
      * addNewList
      * 
@@ -229,7 +232,6 @@ export default class ToDoModel {
     addOldItem(oldItem){
         this.currentList.items.push(oldItem);
         this.view.viewList(this.currentList,this.toDoLists);
-        
     }
     /**
      * Finds and then removes the current list.
@@ -273,4 +275,10 @@ export default class ToDoModel {
             this.tps.undoTransaction();
         }
     } 
+    getUndoSize(){
+        return this.tps.getUndoSize()
+    }
+    getRedoSize(){
+        return this.tps.getRedoSize()
+    }
 }
