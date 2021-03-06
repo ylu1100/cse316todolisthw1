@@ -79,7 +79,7 @@
     background-color: lightslategrey;
 }
 .list-item-row{
-    height:50px
+    min-height:8%;
 }
 .list-item-row:hover{
     background:lightslategrey;
@@ -88,22 +88,24 @@
 
 .list-item-desc{
     display:none;
-    margin-left:20px;
+    margin-top:25px;
     position:absolute;
+    margin-left:20px;
+    
 }
 .list-item-desc-input{
     background:transparent;
    
-    color:White;
+    color:rgb(255,200,25);
 }
 .due-date-col-input{
-    
+    margin-top:25px;
     position:absolute;
 }
 .list-item-date-input{
     background:transparent;
     margin-left:90%;
-    color:White;
+    color:rgb(255,200,25);
 }
 .deleteButton{
     margin-left:10px;
@@ -143,6 +145,15 @@
     margin-left:0
 }
 .task-desc{
+    margin-top:25px;
+    margin-left:10px;
+}
+.date-text{
+    margin-top:25px;
+    margin-left:10px;
+}
+.status-text{
+    margin-top:25px;
     margin-left:10px;
 }
 .sidebar_buttons:hover{

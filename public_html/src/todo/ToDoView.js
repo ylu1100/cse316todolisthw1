@@ -27,6 +27,20 @@ export default class ToDoView {
 
             document.getElementById('add-list-button').classList.remove('add_list_disabled')
             appModel.resetStack()
+            if(appModel.getUndoSize()==0){
+                document.getElementById('undo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('undo-button').classList.remove('add_list_disabled')
+            }
+    
+            if(appModel.getRedoSize()==0){
+                
+                document.getElementById('redo-button').classList.add('add_list_disabled')
+            }
+            else{
+                document.getElementById('redo-button').classList.remove('add_list_disabled')
+            }
             let controls=document.getElementsByClassName('list-item-control')
             for(let i=0;i<controls.length;i++){
                 controls[i].style.pointerEvents='all'
@@ -112,7 +126,7 @@ export default class ToDoView {
         }
 
         if(appModel.getRedoSize()==0){
-            console.log(appModel.getRedoSize())
+            
             document.getElementById('redo-button').classList.add('add_list_disabled')
         }
         else{
@@ -131,16 +145,16 @@ export default class ToDoView {
                                 + "<div onclick='changeTodoDesc("+ listItem.id+");' id='todo-list-desc-"+listItem.id+ "'  class='task-col task-desc' > " + listItem.description  + "</div>"
                                 +"<div id='todo-list-desc-input-"+ listItem.id+"' class='list-item-desc'><input  type='text' id='tododescchange-" + listItem.id + "' class='list-item-desc-input'value='"+listItem.description+"'></input></div>"
                                 
-                                + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col' onclick='changeTodoDate("+listItem.id+")'>" + listItem.dueDate + "</div>"
+                                + "<div id='todo-list-date-" + listItem.id + "' class='due-date-col date-text' onclick='changeTodoDate("+listItem.id+")'>" + listItem.dueDate + "</div>"
                                 + "<div style='margin-left:21%;display:none;' id='todo-list-date-input-" + listItem.id + "' class='due-date-col-input'><input type='date' class='list-item-date-input' value='"+listItem.dueDate+"'></input></div>"
                                
-                                + "<div onclick='changeStatus("+ listItem.id+");' id='todo-list-status-" + listItem.id + "' class='status-col'>" + listItem.status + "</div>"
-                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:63%;'><select style='width:140%;background-color:rgb(64,69,78);color:white' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
+                                + "<div onclick='changeStatus("+ listItem.id+");' id='todo-list-status-" + listItem.id + "' class='status-col status-text'>" + listItem.status + "</div>"
+                                + "<div id='status-col-selector-div-" + listItem.id + "' style='display:none;position:absolute;left:63%;margin-top:25px;'><select style='width:140%;background-color:rgb(64,69,78);color:white' id='status-col-selector-" + listItem.id + "' onclick='changeStatus("+listItem.id+")''> <option value='complete'>complete</option> <option value='incomplete'>incomplete</option></select></div>" 
 
                                 + "<div class='list-controls-col'>"
-                                + " <div id='todo-move-up-"+ listItem.id + "' class='list-item-control material-icons'>keyboard_arrow_up</div>"
-                                + " <div id='todo-move-down-"+ listItem.id + "' class='list-item-control material-icons'>keyboard_arrow_down</div>"
-                                + " <div id='todo-close-"+ listItem.id + "' class='list-item-control material-icons'>close</div>"
+                                + " <div id='todo-move-up-"+ listItem.id + "' style='margin-top:25px;' class='list-item-control material-icons'>keyboard_arrow_up</div>"
+                                + " <div id='todo-move-down-"+ listItem.id + "' style='margin-top:25px;' class='list-item-control material-icons'>keyboard_arrow_down</div>"
+                                + " <div id='todo-close-"+ listItem.id + "' style='margin-top:25px;' class='list-item-control material-icons'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
@@ -275,6 +289,13 @@ export default class ToDoView {
                     document.getElementById('redo-button').classList.remove('add_list_disabled')
                 }
                 item.remove()
+                // if list only has 1 item, disable both move up and down 
+                if(document.getElementsByClassName('list-item-card list-item-row').length==1){
+                    let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
+                    let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
+                    firstRowIcons[1].style.pointerEvents='none'
+                    firstRowIcons[1].style.color='rgb(53,58,68)'
+                }
                 let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
                 let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
                 firstRowIcons[0].style.pointerEvents='none'
@@ -329,7 +350,21 @@ export default class ToDoView {
             }
         }
             listItem.description=val;
-            
+            let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
+                let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
+                firstRowIcons[0].style.pointerEvents='none'
+                firstRowIcons[0].style.color='rgb(53,58,68)'
+                 let allRows=document.getElementsByClassName('list-item-card list-item-row')
+                 for(let i=1;i<allRows[i].length;i++){
+                     let allRowIcons=allRows[i].getElementsByClassName('list-item-control material-icons')
+                     for(let x=0;x<allRowIcons.length;x++){
+                        allRowIcons[x].style.pointerEvents='all'
+                        allRowIcons[x].style.color='white'
+                     }
+                 }
+                 let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
+                 lastRowIcons[1].style.pointerEvents='none'
+                 lastRowIcons[1].style.color='rgb(53,58,68)'
             document.getElementById('todo-list-desc-'+listItem.id).innerHTML=val;
             document.getElementById('todo-list-desc-input-'+listItem.id).style.display='none';
             document.getElementById('todo-list-desc-'+listItem.id).style.visibility='visible'
@@ -383,6 +418,21 @@ export default class ToDoView {
             document.getElementById('todo-list-date-'+listItem.id).innerHTML=newDate;
             document.getElementById('todo-list-date-'+listItem.id).style.visibility='visible';
             date.style.display='none';
+            let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
+                let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
+                firstRowIcons[0].style.pointerEvents='none'
+                firstRowIcons[0].style.color='rgb(53,58,68)'
+                 let allRows=document.getElementsByClassName('list-item-card list-item-row')
+                 for(let i=1;i<allRows[i].length;i++){
+                     let allRowIcons=allRows[i].getElementsByClassName('list-item-control material-icons')
+                     for(let x=0;x<allRowIcons.length;x++){
+                        allRowIcons[x].style.pointerEvents='all'
+                        allRowIcons[x].style.color='white'
+                     }
+                 }
+                 let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
+                 lastRowIcons[1].style.pointerEvents='none'
+                 lastRowIcons[1].style.color='rgb(53,58,68)'
          });
         let statusSelect=document.getElementById('status-col-selector-'+listItem.id);
         
@@ -430,6 +480,7 @@ export default class ToDoView {
             }
         })
         statusSelect.addEventListener('click',function(){
+            
              let newStatus=statusSelect.value;
              status.innerHTML=newStatus
              //status.style.visibility='visible'
@@ -444,7 +495,7 @@ export default class ToDoView {
                 }
 
                 if(appModel.getRedoSize()==0){
-                    console.log(appModel.getRedoSize())
+                    
                     document.getElementById('redo-button').classList.add('add_list_disabled')
                 }
                 else{
@@ -452,6 +503,21 @@ export default class ToDoView {
                 }
                 }
              listItem.status=newStatus
+             let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
+                let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
+                firstRowIcons[0].style.pointerEvents='none'
+                firstRowIcons[0].style.color='rgb(53,58,68)'
+                 let allRows=document.getElementsByClassName('list-item-card list-item-row')
+                 for(let i=1;i<allRows[i].length;i++){
+                     let allRowIcons=allRows[i].getElementsByClassName('list-item-control material-icons')
+                     for(let x=0;x<allRowIcons.length;x++){
+                        allRowIcons[x].style.pointerEvents='all'
+                        allRowIcons[x].style.color='white'
+                     }
+                 }
+                 let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
+                 lastRowIcons[1].style.pointerEvents='none'
+                 lastRowIcons[1].style.color='rgb(53,58,68)'
         })
         
          

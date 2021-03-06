@@ -31,6 +31,21 @@ export default class ToDoController {
             else{
                 document.getElementById('redo-button').classList.remove('add_list_disabled')
             }
+            let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
+                let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
+                firstRowIcons[0].style.pointerEvents='none'
+                firstRowIcons[0].style.color='rgb(53,58,68)'
+                 let allRows=document.getElementsByClassName('list-item-card list-item-row')
+                 for(let i=1;i<allRows[i].length;i++){
+                     let allRowIcons=allRows[i].getElementsByClassName('list-item-control material-icons')
+                     for(let x=0;x<allRowIcons.length;x++){
+                        allRowIcons[x].style.pointerEvents='all'
+                        allRowIcons[x].style.color='white'
+                     }
+                 }
+                 let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
+                 lastRowIcons[1].style.pointerEvents='none'
+                 lastRowIcons[1].style.color='rgb(53,58,68)'
         }
         document.getElementById("redo-button").onmousedown = function() {
             
@@ -47,6 +62,21 @@ export default class ToDoController {
             else{
                 document.getElementById('redo-button').classList.remove('add_list_disabled')
             }
+            let firstRow=document.getElementsByClassName('list-item-card list-item-row')[0]
+                let firstRowIcons=firstRow.getElementsByClassName('list-item-control material-icons')
+                firstRowIcons[0].style.pointerEvents='none'
+                firstRowIcons[0].style.color='rgb(53,58,68)'
+                 let allRows=document.getElementsByClassName('list-item-card list-item-row')
+                 for(let i=1;i<allRows[i].length;i++){
+                     let allRowIcons=allRows[i].getElementsByClassName('list-item-control material-icons')
+                     for(let x=0;x<allRowIcons.length;x++){
+                        allRowIcons[x].style.pointerEvents='all'
+                        allRowIcons[x].style.color='white'
+                     }
+                 }
+                 let lastRowIcons=document.getElementsByClassName('list-item-card list-item-row')[document.getElementsByClassName('list-item-card list-item-row').length-1].getElementsByClassName('list-item-control material-icons')
+                 lastRowIcons[1].style.pointerEvents='none'
+                 lastRowIcons[1].style.color='rgb(53,58,68)'
         }
         document.getElementById("delete-list-button").onmousedown=function(){
             appModel.openDeleteListConfirmation();
@@ -78,10 +108,13 @@ export default class ToDoController {
         document.getElementById("delete-listyes").onmousedown=function(){
             appModel.removeCurrentList();
             document.getElementById('add-list-button').classList.remove('add_list_disabled')
+            appModel.resetStack();
+            document.getElementById('redo-button').classList.add('add_list_disabled')
+            document.getElementById('undo-button').classList.add('add_list_disabled')
             let controls=document.getElementsByClassName('list-item-control')
             for(let i=0;i<controls.length;i++){
                 controls[i].style.pointerEvents='none'
-                controls[i].style.color='rgb(64,69,78)'
+                controls[i].style.color='rgb(53,58,68)'
             }
         }
         

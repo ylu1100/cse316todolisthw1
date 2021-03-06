@@ -56,6 +56,7 @@
 }
 
 .due-date-col {
+    
     text-align: center;
     width:25%;
     
@@ -90,7 +91,8 @@
 }
 
 #todo-list-items-div{
-    height:100%;
+    height:100vh;
+    
     overflow-y:scroll
 }
 .top_right_controls:hover{
